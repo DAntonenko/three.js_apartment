@@ -8,7 +8,7 @@ class Corner {
   }
 
   buildCorner(x, y) {
-    new Parallelepiped(25, 25, 25, x, y);
+    new Parallelepiped(25, 25, 120, x, y, 0, 'green');
   }
 }
 
@@ -16,8 +16,9 @@ const materials = new THREE.MeshBasicMaterial( { side: THREE.DoubleSide, map: ne
 
 class Parallelepiped extends THREE.Mesh {
   constructor(width, height, depth, centerX, centerY, rotation = 0, color = 'red') {
-    // super(new THREE.BoxGeometry(width, height, depth), materials);
-    super(new THREE.BoxGeometry(width, height, depth), new THREE.MeshBasicMaterial( { color: 'green' } ),);
+    super(new THREE.BoxGeometry(width, height, depth), materials);
+    // super(new THREE.BoxGeometry(width, height, depth), new THREE.MeshBasicMaterial( { color: `rgb(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)})` } ),);
+    // super(new THREE.BoxGeometry(width, height, depth), new THREE.MeshBasicMaterial( { color: 'red'} ));
     this.position.x = centerX;
     this.position.y = centerY;
     this.position.z = 0;
@@ -64,7 +65,7 @@ class Wall {
   }
 
   buildWall() {
-    // new Parallelepiped(this.wallLength, 15, 120, this.centerX, this.centerY, this.wallRotation, 'green');
+    new Parallelepiped(this.wallLength, 25, 120, this.centerX, this.centerY, this.wallRotation);
     new Plane(this.wallLength, 120, this.centerX, this.centerY, this.wallRotation);
   }
 }
@@ -111,7 +112,7 @@ renderer.setClearColor(0xffffff);
 document.body.appendChild(renderer.domElement);
 
 const corners = plan.corners.map(corner => [{x: corner.x, y: corner.y}]);
-// corners.map((corner) => new Corner(corner[0].x, corner[0].y) );
+corners.map((corner) => new Corner(corner[0].x, corner[0].y) );
 plan.walls.map(wall => new Wall(wall.id));
 
 function render() {
